@@ -1,0 +1,40 @@
+services:
+  db:
+    build:
+      context: ./containers
+      dockerfile: containerfiles/database.containerfile
+    restart: unless-stopped
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./backend/db/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U polluser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./containers
+      dockerfile: containerfiles/backend.containerfile
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./containers
+      dockerfile: containerfiles/frontend.containerfile
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+    command: npm run dev
+
+volumes:
+  pg_data:
