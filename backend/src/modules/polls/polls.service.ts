@@ -1,6 +1,6 @@
-import { pollsRepository } from "@/modules/polls/polls.repository";
+import type { PollsRepository } from "@/modules/polls/polls.repository";
 
-export const pollsService = {
+export const pollsService = (pollsRepository: PollsRepository) => ({
   getAll() {
     return pollsRepository.findAll();
   },
@@ -16,4 +16,6 @@ export const pollsService = {
   delete(id: string) {
     return pollsRepository.delete(id);
   },
-};
+});
+
+export type PollsService = ReturnType<typeof pollsService>;

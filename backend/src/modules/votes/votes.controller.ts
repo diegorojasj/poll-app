@@ -1,8 +1,8 @@
 import type { Response, NextFunction } from "express";
 import type { AuthRequest } from "@/shared/types";
-import { votesService } from "@/modules/votes/votes.service";
+import type { VotesService } from "@/modules/votes/votes.service";
 
-export const votesController = {
+export const votesController = (votesService: VotesService) => ({
   async getByPoll(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const votes = await votesService.getByPoll(String(req.params.pollId));
@@ -20,4 +20,6 @@ export const votesController = {
       next(err);
     }
   },
-};
+});
+
+export type VotesController = ReturnType<typeof votesController>;

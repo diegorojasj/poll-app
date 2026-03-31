@@ -1,7 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import { authService } from "@/modules/auth/auth.service";
+import type { Request, Response, NextFunction } from "express";
+import type { AuthService } from "@/modules/auth/auth.service";
+import type { JwtUtils } from "@/config/jwt";
 
-export const authController = {
+export const authController = (authService: AuthService, jwtUtils: JwtUtils) =>({
   async register(req: Request, res: Response, next: NextFunction) {
     try {
       const { username, password } = req.body;
@@ -21,4 +22,6 @@ export const authController = {
       next(err);
     }
   },
-};
+});
+
+export type AuthController = ReturnType<typeof authController>;

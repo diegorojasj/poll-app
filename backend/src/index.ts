@@ -1,16 +1,17 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import { errorHandler } from "@/shared/middleware/error";
-import authRouter from "@/modules/auth";
-import pollsRouter from "@/modules/polls";
-import votesRouter from "@/modules/votes";
+import { buildContainer } from "@/container";
 
 const app = express();
+const container = buildContainer();
 
 app.use(express.json());
+app.use(cookieParser());
 
-app.use("/api/auth", authRouter);
-app.use("/api/polls", pollsRouter);
-app.use("/api/votes", votesRouter);
+app.use("/auth", container.authRoutes);
+app.use("/polls", container.pollsRoutes);
+app.use("/votes", container.votesRoutes);
 
 app.use(errorHandler);
 

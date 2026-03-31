@@ -1,10 +1,12 @@
 import { Router } from "express";
-import { authenticate } from "@/shared/middleware/auth";
-import { votesController } from "@/modules/votes/votes.controller";
+import type { RequestHandler } from "express";
+import type { VotesController } from "@/modules/votes/votes.controller";
 
-const router = Router();
+export function votesRoutes(votesController: VotesController, authMiddleware: RequestHandler) {
+  const router = Router();
 
-router.get("/poll/:pollId", votesController.getByPoll);
-router.post("/", authenticate, votesController.cast);
+  router.get("/poll/:pollId", votesController.getByPoll);
+  router.post("/", authMiddleware, votesController.cast);
 
-export default router;
+  return router;
+}

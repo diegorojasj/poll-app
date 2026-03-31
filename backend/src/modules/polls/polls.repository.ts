@@ -1,6 +1,7 @@
-import prisma from "@/config/db";
+import type { Prisma } from "@/config/db";
 
-export const pollsRepository = {
+export const pollsRepository = (prisma: Prisma) => {
+  return {
   findAll() {
     return prisma.poll.findMany();
   },
@@ -16,4 +17,7 @@ export const pollsRepository = {
   delete(id: string) {
     return prisma.poll.delete({ where: { id } });
   },
+  };
 };
+
+export type PollsRepository = ReturnType<typeof pollsRepository>;
