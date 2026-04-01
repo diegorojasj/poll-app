@@ -1,3 +1,4 @@
+import type { Response } from "express";
 
 const PBKDF2_ITERATIONS = 310_000;
 const SALT_LENGTH = 16; // bytes
@@ -45,6 +46,9 @@ const utils = {
     }
     return diff === 0;
   },
+  setCookie(key: string, value: string, response: Response, options: { httpOnly: boolean, sameSite: 'lax' | 'none' | 'strict', expires?: Date } = { httpOnly: true, sameSite: 'lax', expires: new Date(Date.now() + 60 * 60 * 1000) }) {
+    response.cookie(key, value, options)
+  }
 };
 
 export default utils;

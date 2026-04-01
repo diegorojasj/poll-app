@@ -5,7 +5,7 @@ WORKDIR /app
 ENV NODE_ENV=development \
     PORT=4000 \
     DATABASE_URL=postgres://polluser:pollpass@db:5432/polldb \
-    JWT_SECRET=supersecretkey \
+    SECRET_KEY=supersecretkey \
     FRONTEND_URL=http://localhost:3000
 
 EXPOSE 4000

@@ -32,12 +32,12 @@ export function buildContainer() {
   const votesRepository = createVotesRepository(prisma)
 
   // Services
-  const authService  = createAuthService(authRepository, utils)
+  const authService  = createAuthService(authRepository, jwtUtils, utils, env)
   const pollsService = createPollsService(pollsRepository)
   const votesService = createVotesService(votesRepository)
 
   // Controllers
-  const authController  = createAuthController(authService, jwtUtils)
+  const authController  = createAuthController(authService, utils)
   const pollsController = createPollsController(pollsService)
   const votesController = createVotesController(votesService)
 
@@ -45,7 +45,7 @@ export function buildContainer() {
   const authMiddleware = createAuthMiddleware(jwtUtils, env)
 
   // Routes
-  const authRoutes  = createAuthRoutes(authController)
+  const authRoutes  = createAuthRoutes(authController, authMiddleware)
   const pollsRoutes = createPollsRoutes(pollsController, authMiddleware)
   const votesRoutes = createVotesRoutes(votesController, authMiddleware)
 

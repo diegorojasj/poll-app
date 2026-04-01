@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import { errorHandler } from "@/shared/middleware/error";
 import { buildContainer } from "@/container";
+import { env } from "@/config/env";
 
 const app = express();
 const container = buildContainer();
@@ -15,7 +16,6 @@ app.use("/votes", container.votesRoutes);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT ?? 4000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(env.PORT, () => console.log(`Server running on port ${env.PORT}`));
 
 export default app;

@@ -2,7 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-ENV NEXT_PUBLIC_API_URL=http://localhost:4000
+ENV BACKEND_URL=http://localhost:4000
 
 EXPOSE 3000
 

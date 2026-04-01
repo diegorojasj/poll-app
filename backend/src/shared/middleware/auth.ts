@@ -10,6 +10,7 @@ export function AuthMiddleware(jwtUtils: JwtUtils, env: Env) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
+    req.token = token
     try {
       const payload = jwtUtils.verify_access_token(token, env.AUD, env.ISS);
       if (typeof payload === "string" || !payload.sub) {
